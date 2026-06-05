@@ -51,9 +51,83 @@ const defaultState = {
   ],
 };
 
+const officialCatalog = [
+  {
+    source: "BanG Dream!",
+    sourceUrl: "https://bang-dream.com/events/mygo_9th",
+    officialId: "bangdream-mygo-9th-day1",
+    artist: "MyGO!!!!!",
+    title: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」DAY1",
+    date: "2026-07-18",
+    city: "Yokohama",
+    venue: "ぴあアリーナMM",
+    priceMin: 8800,
+    priceMax: 24200,
+    deadline: "",
+    notes: "官方页面公布为 2026年7月18日(土)・19日(日)，DAY1 开演 18:00 予定。",
+  },
+  {
+    source: "BanG Dream!",
+    sourceUrl: "https://bang-dream.com/events/mygo_9th",
+    officialId: "bangdream-mygo-9th-day2",
+    artist: "MyGO!!!!!",
+    title: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」DAY2",
+    date: "2026-07-19",
+    city: "Yokohama",
+    venue: "ぴあアリーナMM",
+    priceMin: 8800,
+    priceMax: 24200,
+    deadline: "2026-07-13",
+    notes: "官方页面公布为 2026年7月18日(土)・19日(日)，DAY2 开演 18:00 予定。",
+  },
+  {
+    source: "BanG Dream!",
+    sourceUrl: "https://bang-dream.com/13th-live/",
+    officialId: "bangdream-13th-day1",
+    artist: "Poppin'Party",
+    title: "BanG Dream! 13th☆LIVE DAY1",
+    date: "2026-10-10",
+    city: "Tokyo",
+    venue: "東京ガーデンシアター",
+    priceMin: 11000,
+    priceMax: 23100,
+    deadline: "2026-07-13",
+    notes: "DAY1 出演：Poppin'Party。官方页面公布开场 16:30 / 开演 18:00 予定。",
+  },
+  {
+    source: "BanG Dream!",
+    sourceUrl: "https://bang-dream.com/13th-live/",
+    officialId: "bangdream-13th-day2",
+    artist: "夢限大みゅーたいぷ",
+    title: "BanG Dream! 13th☆LIVE DAY2",
+    date: "2026-10-11",
+    city: "Tokyo",
+    venue: "東京ガーデンシアター",
+    priceMin: 11000,
+    priceMax: 23100,
+    deadline: "2026-07-13",
+    notes: "DAY2 出演：夢限大みゅーたいぷ。官方页面公布开场 16:30 / 开演 18:00 予定。",
+  },
+  {
+    source: "BanG Dream!",
+    sourceUrl: "https://bang-dream.com/13th-live/",
+    officialId: "bangdream-13th-day3",
+    artist: "RAISE A SUILEN",
+    title: "BanG Dream! 13th☆LIVE DAY3",
+    date: "2026-10-12",
+    city: "Tokyo",
+    venue: "東京ガーデンシアター",
+    priceMin: 11000,
+    priceMax: 23100,
+    deadline: "",
+    notes: "DAY3 出演：RAISE A SUILEN。官方页面公布开场 16:30 / 开演 18:00 予定。",
+  },
+];
+
 let state = loadState();
 let currentView = "dashboard";
 let filters = { search: "", status: "all", city: "all" };
+let discoverFilters = { search: "", source: "all" };
 
 const els = {
   viewTitle: document.querySelector("#viewTitle"),
@@ -61,12 +135,15 @@ const els = {
   upcomingList: document.querySelector("#upcomingList"),
   priorityList: document.querySelector("#priorityList"),
   liveGrid: document.querySelector("#liveGrid"),
+  discoverGrid: document.querySelector("#discoverGrid"),
   reminderList: document.querySelector("#reminderList"),
   friendList: document.querySelector("#friendList"),
   interestList: document.querySelector("#interestList"),
   cityFilter: document.querySelector("#cityFilter"),
   statusFilter: document.querySelector("#statusFilter"),
   searchInput: document.querySelector("#searchInput"),
+  discoverSearchInput: document.querySelector("#discoverSearchInput"),
+  sourceFilter: document.querySelector("#sourceFilter"),
   liveDialog: document.querySelector("#liveDialog"),
   liveForm: document.querySelector("#liveForm"),
   dialogTitle: document.querySelector("#dialogTitle"),
@@ -146,6 +223,7 @@ function switchView(view) {
   els.viewTitle.textContent = {
     dashboard: "总览",
     lives: "Live",
+    discover: "发现",
     reminders: "提醒",
     friends: "朋友",
   }[view];
@@ -156,6 +234,7 @@ function render() {
   renderStats();
   renderCities();
   renderLives();
+  renderDiscover();
   renderDashboard();
   renderReminders();
   renderFriends();
@@ -169,15 +248,68 @@ function renderStats() {
     return days !== null && days >= 0 && days <= 14;
   }).length;
   const budget = state.lives.reduce((sum, live) => sum + (Number(live.budget) || 0), 0);
+  const available = officialCatalog.filter((item) => !isInCart(item.officialId)).length;
 
   els.statsGrid.innerHTML = [
     ["跟进 Live", openLives],
     ["已确定", ticketed],
     ["两周内截止", urgent],
-    ["总预算 JPY", `¥${budget.toLocaleString("ja-JP")}`],
+    ["可加入发现", available],
   ]
     .map(([label, value]) => `<div class="stat"><span>${label}</span><strong>${value}</strong></div>`)
     .join("");
+}
+
+function isInCart(officialId) {
+  return state.lives.some((live) => live.officialId === officialId);
+}
+
+function filteredCatalog() {
+  return officialCatalog
+    .filter((item) => {
+      const text = `${item.artist} ${item.title} ${item.city} ${item.venue} ${item.source}`.toLowerCase();
+      const matchesSearch = text.includes(discoverFilters.search.toLowerCase());
+      const matchesSource = discoverFilters.source === "all" || item.source === discoverFilters.source;
+      const isUpcoming = daysUntil(item.date) === null || daysUntil(item.date) >= 0;
+      return matchesSearch && matchesSource && isUpcoming;
+    })
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+}
+
+function renderDiscover() {
+  const items = filteredCatalog();
+  els.discoverGrid.innerHTML = items.length
+    ? items.map(renderDiscoverCard).join("")
+    : `<div class="empty">没有匹配的官方 Live</div>`;
+}
+
+function renderDiscoverCard(item) {
+  const inCart = isInCart(item.officialId);
+  const price = item.priceMin && item.priceMax ? `¥${item.priceMin.toLocaleString("ja-JP")} - ¥${item.priceMax.toLocaleString("ja-JP")}` : "未公布";
+  return `
+    <article class="live-card">
+      <div class="live-card-header">
+        <div>
+          <div class="artist">${item.source} · ${item.artist}</div>
+          <h3>${item.title}</h3>
+        </div>
+        <span class="badge ${inCart ? "ok" : "info"}">${inCart ? "已加入" : "官方"}</span>
+      </div>
+      <div class="meta-grid">
+        <span>日期：${formatFullDate(item.date)}</span>
+        <span>城市：${item.city}</span>
+        <span>场馆：${item.venue}</span>
+        <span>票价：${price}</span>
+      </div>
+      <p class="muted">${item.notes}</p>
+      <div class="card-actions">
+        <a class="small-link" href="${item.sourceUrl}" target="_blank" rel="noreferrer">官方来源</a>
+        <button class="${inCart ? "secondary-button" : "primary-button"}" data-add-official="${item.officialId}" ${inCart ? "disabled" : ""}>
+          ${inCart ? "已在意向" : "加入意向"}
+        </button>
+      </div>
+    </article>
+  `;
 }
 
 function renderCities() {
@@ -235,13 +367,37 @@ function renderLiveCard(live) {
           })
           .join("")}
       </div>
-      <div class="muted">截止：${formatFullDate(live.deadline)} ${reminderBadge(deadlineDays)}</div>
+      <div class="muted">${live.source ? `来源：${live.source} · ` : ""}截止：${formatFullDate(live.deadline)} ${reminderBadge(deadlineDays)}</div>
       <div class="card-actions">
         ${live.link ? `<a class="small-link" href="${live.link}" target="_blank" rel="noreferrer">官方链接</a>` : "<span></span>"}
         <button class="secondary-button" data-edit="${live.id}">编辑</button>
       </div>
     </article>
   `;
+}
+
+function addOfficialToCart(officialId) {
+  const item = officialCatalog.find((catalogItem) => catalogItem.officialId === officialId);
+  if (!item || isInCart(officialId)) return;
+
+  state.lives.push({
+    id: crypto.randomUUID(),
+    officialId: item.officialId,
+    source: item.source,
+    artist: item.artist,
+    title: item.title,
+    date: item.date,
+    city: item.city,
+    venue: item.venue,
+    status: "关注中",
+    priority: 3,
+    budget: item.priceMax || item.priceMin || 0,
+    deadline: item.deadline || "",
+    link: item.sourceUrl,
+    notes: item.notes,
+    interest: Object.fromEntries(state.friends.map((friend) => [friend, "观望"])),
+  });
+  render();
 }
 
 function renderDashboard() {
@@ -433,6 +589,9 @@ document.body.addEventListener("click", (event) => {
   const interestButton = event.target.closest("[data-interest]");
   if (interestButton) cycleInterest(interestButton.dataset.interest, interestButton.dataset.friend);
 
+  const officialButton = event.target.closest("[data-add-official]");
+  if (officialButton) addOfficialToCart(officialButton.dataset.addOfficial);
+
   const friend = event.target.closest("[data-remove-friend]")?.dataset.removeFriend;
   if (friend) {
     state.friends = state.friends.filter((name) => name !== friend);
@@ -461,6 +620,16 @@ document.querySelector("#friendForm").addEventListener("submit", (event) => {
 els.searchInput.addEventListener("input", (event) => {
   filters.search = event.target.value;
   renderLives();
+});
+
+els.discoverSearchInput.addEventListener("input", (event) => {
+  discoverFilters.search = event.target.value;
+  renderDiscover();
+});
+
+els.sourceFilter.addEventListener("change", (event) => {
+  discoverFilters.source = event.target.value;
+  renderDiscover();
 });
 
 els.statusFilter.addEventListener("change", (event) => {

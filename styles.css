@@ -318,6 +318,22 @@ textarea {
   gap: 1rem;
 }
 
+.source-note {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.76);
+  padding: 0.8rem 1rem;
+}
+
+.source-note span {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
 .live-card {
   display: grid;
   gap: 0.75rem;
@@ -585,7 +601,7 @@ textarea {
   }
 
   .nav {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     margin-top: 0.85rem;
   }
 
@@ -616,6 +632,11 @@ textarea {
 
   .topbar-actions .primary-button {
     flex: 1;
+  }
+
+  .source-note {
+    align-items: start;
+    flex-direction: column;
   }
 }
 

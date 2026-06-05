@@ -26,6 +26,10 @@
             <span aria-hidden="true">♫</span>
             <span>Live</span>
           </button>
+          <button class="nav-item" data-view="discover" title="发现">
+            <span aria-hidden="true">＋</span>
+            <span>发现</span>
+          </button>
           <button class="nav-item" data-view="reminders" title="提醒">
             <span aria-hidden="true">!</span>
             <span>提醒</span>
@@ -89,6 +93,24 @@
             </select>
           </div>
           <div class="live-grid" id="liveGrid"></div>
+        </section>
+
+        <section class="view" id="discoverView">
+          <div class="toolbar">
+            <label class="search-box">
+              <span>⌕</span>
+              <input id="discoverSearchInput" type="search" placeholder="搜索官方 Live、乐队、城市、场馆" />
+            </label>
+            <select id="sourceFilter" aria-label="来源筛选">
+              <option value="all">全部来源</option>
+              <option value="BanG Dream!">BanG Dream!</option>
+            </select>
+          </div>
+          <div class="source-note">
+            <strong>官方发现池</strong>
+            <span>这里展示已公开且尚未演出的 Live。加入意向后，才会进入你的 Live cart。</span>
+          </div>
+          <div class="live-grid" id="discoverGrid"></div>
         </section>
 
         <section class="view" id="remindersView">
