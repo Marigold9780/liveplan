@@ -1,183 +1,9 @@
 const STORAGE_KEY = "liveplan-personal-state-v1";
 
-const marketCatalog = [
-  {
-    id: "bangdream-mygo-9th-day1",
-    source: "BanG Dream!",
-    sourceUrl: "https://bang-dream.com/events/mygo_9th",
-    sourceLabel: "官方活动页",
-    artist: "MyGO!!!!!",
-    title: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」DAY1",
-    titleCn: "MyGO!!!!! 第 9 次 Live「在连接点的彼方」DAY1",
-    date: "2026-07-18",
-    openTime: "16:30",
-    startTime: "18:00",
-    city: "Yokohama",
-    venue: "ぴあアリーナMM",
-    image: "https://bang-dream.com/wordpress/wp-content/uploads/2026/04/mygo_9th_0604thum.jpg",
-    priceMin: 8800,
-    priceMax: 24200,
-    ticket: "S席、A席、グッズ付チケット等。具体席种以官方页面为准。",
-    deadline: "",
-    summary: "MyGO!!!!! 单独公演，横滨两日场。DAY1 适合作为周末行程的前半段。",
-    knownInfo: ["官方已公布举办日期与会场", "官方已公布开场 / 开演时间", "票价区间已公开，具体席种请以官方为准"],
-    tags: ["少女乐队", "横滨", "两日场"],
-  },
-  {
-    id: "bangdream-mygo-9th-day2",
-    source: "BanG Dream!",
-    sourceUrl: "https://bang-dream.com/events/mygo_9th",
-    sourceLabel: "官方活动页",
-    artist: "MyGO!!!!!",
-    title: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」DAY2",
-    titleCn: "MyGO!!!!! 第 9 次 Live「在连接点的彼方」DAY2",
-    date: "2026-07-19",
-    openTime: "16:30",
-    startTime: "18:00",
-    city: "Yokohama",
-    venue: "ぴあアリーナMM",
-    image: "https://bang-dream.com/wordpress/wp-content/uploads/2026/04/mygo_9th_0604thum.jpg",
-    priceMin: 8800,
-    priceMax: 24200,
-    ticket: "S席、A席、グッズ付チケット等。具体席种以官方页面为准。",
-    deadline: "",
-    summary: "MyGO!!!!! 横滨两日场 DAY2。适合和 DAY1 组合成周末远征安排。",
-    knownInfo: ["官方已公布举办日期与会场", "官方已公布开场 / 开演时间", "票价区间已公开，具体席种请以官方为准"],
-    tags: ["少女乐队", "横滨", "两日场"],
-  },
-  {
-    id: "bangdream-13th-day1",
-    source: "BanG Dream!",
-    sourceUrl: "https://bang-dream.com/13th-live/",
-    sourceLabel: "官方特设页",
-    artist: "Poppin'Party",
-    title: "BanG Dream! 13th☆LIVE DAY1 : Poppin'Party",
-    titleCn: "BanG Dream! 13th☆LIVE DAY1：Poppin'Party",
-    date: "2026-10-10",
-    openTime: "16:30",
-    startTime: "18:00",
-    city: "Tokyo",
-    venue: "東京ガーデンシアター",
-    image: "",
-    priceMin: 11000,
-    priceMax: 23100,
-    ticket: "SS席、S席、グッズ付チケット等。官方页面显示抽选受付信息。",
-    deadline: "2026-07-13",
-    summary: "BanG Dream! 大型三日公演 DAY1，出演为 Poppin'Party。",
-    knownInfo: ["官方已公布举办日期、会场、出演者", "官方已公布开场 / 开演时间", "官方页面显示抽选受付截止日为 2026-07-13"],
-    tags: ["东京", "大型公演", "抽选"],
-  },
-  {
-    id: "bangdream-13th-day2",
-    source: "BanG Dream!",
-    sourceUrl: "https://bang-dream.com/13th-live/",
-    sourceLabel: "官方特设页",
-    artist: "夢限大みゅーたいぷ",
-    title: "BanG Dream! 13th☆LIVE DAY2 : 夢限大みゅーたいぷ",
-    titleCn: "BanG Dream! 13th☆LIVE DAY2：夢限大みゅーたいぷ",
-    date: "2026-10-11",
-    openTime: "16:30",
-    startTime: "18:00",
-    city: "Tokyo",
-    venue: "東京ガーデンシアター",
-    image: "",
-    priceMin: 11000,
-    priceMax: 23100,
-    ticket: "SS席、S席、グッズ付チケット等。官方页面显示抽选受付信息。",
-    deadline: "2026-07-13",
-    summary: "BanG Dream! 大型三日公演 DAY2，出演为 夢限大みゅーたいぷ。",
-    knownInfo: ["官方已公布举办日期、会场、出演者", "官方已公布开场 / 开演时间", "官方页面显示抽选受付截止日为 2026-07-13"],
-    tags: ["东京", "大型公演", "抽选"],
-  },
-  {
-    id: "bangdream-13th-day3",
-    source: "BanG Dream!",
-    sourceUrl: "https://bang-dream.com/13th-live/",
-    sourceLabel: "官方特设页",
-    artist: "RAISE A SUILEN",
-    title: "BanG Dream! 13th☆LIVE DAY3 : RAISE A SUILEN",
-    titleCn: "BanG Dream! 13th☆LIVE DAY3：RAISE A SUILEN",
-    date: "2026-10-12",
-    openTime: "16:30",
-    startTime: "18:00",
-    city: "Tokyo",
-    venue: "東京ガーデンシアター",
-    image: "",
-    priceMin: 11000,
-    priceMax: 23100,
-    ticket: "SS席、S席、グッズ付チケット等。官方页面显示抽选受付信息。",
-    deadline: "2026-07-13",
-    summary: "BanG Dream! 大型三日公演 DAY3，出演为 RAISE A SUILEN。",
-    knownInfo: ["官方已公布举办日期、会场、出演者", "官方已公布开场 / 开演时间", "官方页面显示抽选受付截止日为 2026-07-13"],
-    tags: ["东京", "大型公演", "抽选"],
-  },
-  {
-    id: "bangdream-roselia-lehre-der-rose-day1",
-    source: "BanG Dream!",
-    sourceUrl: "https://bang-dream.com/events/lehre-der-rose",
-    sourceLabel: "官方活动页",
-    artist: "Roselia",
-    title: "Roselia「Lehre der Rose」DAY1",
-    titleCn: "Roselia「Lehre der Rose」纪念 Live DAY1",
-    date: "2026-08-29",
-    openTime: "16:30",
-    startTime: "18:00",
-    city: "Tokyo",
-    venue: "有明アリーナ",
-    image: "",
-    priceMin: 11000,
-    priceMax: 23100,
-    ticket: "票种与受付信息以官方页面为准。",
-    deadline: "",
-    summary: "Roselia 10 周年 Best Album「Lehre der Rose」发行纪念 Live，DAY1。",
-    knownInfo: ["官方活动页已公开两日场", "DAY1：2026年8月29日(土) 开场16:30 / 开演18:00 予定", "会场原文：有明アリーナ"],
-    tags: ["东京", "Roselia", "两日场"],
-  },
-  {
-    id: "bangdream-roselia-lehre-der-rose-day2",
-    source: "BanG Dream!",
-    sourceUrl: "https://bang-dream.com/events/lehre-der-rose",
-    sourceLabel: "官方活动页",
-    artist: "Roselia",
-    title: "Roselia「Lehre der Rose」DAY2",
-    titleCn: "Roselia「Lehre der Rose」纪念 Live DAY2",
-    date: "2026-08-30",
-    openTime: "16:30",
-    startTime: "18:00",
-    city: "Tokyo",
-    venue: "有明アリーナ",
-    image: "",
-    priceMin: 11000,
-    priceMax: 23100,
-    ticket: "票种与受付信息以官方页面为准。",
-    deadline: "",
-    summary: "Roselia 10 周年 Best Album「Lehre der Rose」发行纪念 Live，DAY2。",
-    knownInfo: ["官方活动页已公开两日场", "DAY2：2026年8月30日(日) 开场16:30 / 开演18:00 予定", "会场原文：有明アリーナ"],
-    tags: ["东京", "Roselia", "两日场"],
-  },
-  {
-    id: "bangdream-ras-howling-ambition",
-    source: "BanG Dream!",
-    sourceUrl: "https://bang-dream.com/ras_2026_tokyo",
-    sourceLabel: "官方活动页",
-    artist: "RAISE A SUILEN",
-    title: "RAISE A SUILEN LIVE 2026「Boot IGNITION」東京公演",
-    titleCn: "RAISE A SUILEN LIVE 2026「Boot IGNITION」东京公演",
-    date: "2026-06-18",
-    openTime: "17:30",
-    startTime: "19:00",
-    city: "Tokyo",
-    venue: "SGC HALL ARIAKE",
-    image: "",
-    priceMin: 9900,
-    priceMax: 19800,
-    ticket: "アリーナスタンディング / スタンド指定席等。具体席种以官方页面为准。",
-    deadline: "",
-    summary: "RAISE A SUILEN LIVE 2026「Boot IGNITION」东京公演，日期临近，适合优先确认票务与交通。",
-    knownInfo: ["官方页面显示东京公演为 2026年6月18日(木)", "开场17:30 / 开演19:00 予定", "会场原文：SGC HALL ARIAKE"],
-    tags: ["东京", "SGC HALL ARIAKE", "近期开演"],
-  },
-];
+let marketCatalog = [];
+let loadError = null;
+let marketMeta = {};
+const MARKET_DATA_URL = "../data/live-market.json";
 
 const defaultState = {
   cart: [],
@@ -221,6 +47,29 @@ function clone(value) {
 
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+async function loadMarketCatalog() {
+  const response = await fetch(`${MARKET_DATA_URL}?t=${Date.now()}`);
+  if (!response.ok) {
+    throw new Error(`Market data request failed: ${response.status}`);
+  }
+
+  const payload = await response.json();
+  marketMeta = payload;
+  marketCatalog = Array.isArray(payload) ? payload : payload.events || [];
+  state.lastSync = payload.lastVerifiedAt || state.lastSync;
+  loadError = null;
+}
+
+async function syncMarket() {
+  try {
+    await loadMarketCatalog();
+  } catch (error) {
+    loadError = error;
+    marketCatalog = [];
+  }
+  render();
 }
 
 function getLive(id) {
@@ -294,7 +143,7 @@ function monthKey(value) {
 
 function render() {
   saveState();
-  els.lastSyncText.textContent = state.lastSync;
+  els.lastSyncText.textContent = marketMeta.lastVerifiedAt || state.lastSync;
   renderFilters();
   renderMarket();
   renderCart();
@@ -329,6 +178,15 @@ function filteredMarket() {
 }
 
 function renderMarket() {
+  if (loadError) {
+    els.marketList.innerHTML = `
+      <div class="empty">
+        无法读取 Live Market 数据。请通过本地静态服务器或 GitHub Pages 打开项目，而不是直接双击 frontend/index.html。
+      </div>
+    `;
+    return;
+  }
+
   const items = filteredMarket();
   els.marketList.innerHTML = items.length ? items.map((live) => renderLiveRow(live, "market")).join("") : `<div class="empty">没有匹配的 Live</div>`;
 }
@@ -636,9 +494,8 @@ els.monthFilter.addEventListener("change", (event) => {
 
 document.querySelector("#closeDetailButton").addEventListener("click", () => els.detailDialog.close());
 
-document.querySelector("#syncButton").addEventListener("click", () => {
-  state.lastSync = new Date().toISOString().slice(0, 10);
-  render();
+document.querySelector("#syncButton").addEventListener("click", async () => {
+  await syncMarket();
 });
 
 document.querySelector("#exportButton").addEventListener("click", () => {
@@ -716,4 +573,4 @@ document.body.addEventListener(
   true,
 );
 
-render();
+syncMarket();
