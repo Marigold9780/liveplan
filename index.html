@@ -13,30 +13,26 @@
           <div class="brand-mark">LP</div>
           <div>
             <h1>LivePlan</h1>
-            <p>日音 Live 规划助手</p>
+            <p>日音 Live Market</p>
           </div>
         </div>
 
         <nav class="nav">
-          <button class="nav-item active" data-view="dashboard" title="总览">
-            <span aria-hidden="true">⌂</span>
-            <span>总览</span>
+          <button class="nav-item active" data-view="market" title="Live Market">
+            <span aria-hidden="true">M</span>
+            <span>Market</span>
           </button>
-          <button class="nav-item" data-view="lives" title="Live">
-            <span aria-hidden="true">♫</span>
-            <span>Live</span>
+          <button class="nav-item" data-view="cart" title="我的关注">
+            <span aria-hidden="true">C</span>
+            <span>关注</span>
           </button>
-          <button class="nav-item" data-view="discover" title="发现">
-            <span aria-hidden="true">＋</span>
-            <span>发现</span>
+          <button class="nav-item" data-view="planner" title="时间规划">
+            <span aria-hidden="true">P</span>
+            <span>规划</span>
           </button>
           <button class="nav-item" data-view="reminders" title="提醒">
             <span aria-hidden="true">!</span>
             <span>提醒</span>
-          </button>
-          <button class="nav-item" data-view="friends" title="朋友">
-            <span aria-hidden="true">◎</span>
-            <span>朋友</span>
           </button>
         </nav>
       </aside>
@@ -44,175 +40,69 @@
       <main class="main">
         <header class="topbar">
           <div>
-            <p class="eyebrow">Internal planning board</p>
-            <h2 id="viewTitle">总览</h2>
+            <p class="eyebrow">中文向 · 官方公开信息整理</p>
+            <h2 id="viewTitle">Live Market</h2>
           </div>
           <div class="topbar-actions">
-            <button class="icon-button" id="exportButton" title="导出数据" aria-label="导出数据">⇩</button>
-            <button class="primary-button" id="addLiveButton">新增 Live</button>
+            <button class="icon-button" id="exportButton" title="导出关注数据" aria-label="导出关注数据">⇩</button>
+            <button class="secondary-button" id="syncButton">同步 Market</button>
           </div>
         </header>
 
-        <section class="view active" id="dashboardView">
-          <div class="stats-grid" id="statsGrid"></div>
-          <div class="dashboard-grid">
-            <section class="panel">
-              <div class="panel-header">
-                <h3>临近事项</h3>
-                <button class="text-button" data-view-jump="reminders">查看全部</button>
-              </div>
-              <div class="timeline" id="upcomingList"></div>
-            </section>
-            <section class="panel">
-              <div class="panel-header">
-                <h3>优先级队列</h3>
-                <button class="text-button" data-view-jump="lives">管理</button>
-              </div>
-              <div class="rank-list" id="priorityList"></div>
-            </section>
+        <section class="view active" id="marketView">
+          <div class="hero-panel">
+            <div>
+              <p class="eyebrow">Live Market</p>
+              <h3>像逛商城一样浏览日音 Live</h3>
+              <p>自动同步池会整理官方已公开且尚未演出的 Live。看中哪场，就点“关注”加入你的 cart，再进入时间、预算和行程规划。</p>
+            </div>
+            <div class="sync-card">
+              <span>上次同步</span>
+              <strong id="lastSyncText">2026-06-08</strong>
+            </div>
           </div>
-        </section>
 
-        <section class="view" id="livesView">
           <div class="toolbar">
             <label class="search-box">
               <span>⌕</span>
-              <input id="searchInput" type="search" placeholder="搜索艺人、城市、场馆" />
+              <input id="marketSearchInput" type="search" placeholder="搜索乐队、城市、场馆、关键词" />
             </label>
-            <select id="statusFilter" aria-label="状态筛选">
-              <option value="all">全部状态</option>
-              <option value="关注中">关注中</option>
-              <option value="已抽选">已抽选</option>
-              <option value="中选">中选</option>
-              <option value="落选">落选</option>
-              <option value="已买票">已买票</option>
-              <option value="放弃">放弃</option>
+            <select id="artistFilter" aria-label="乐队筛选">
+              <option value="all">全部乐队</option>
             </select>
-            <select id="cityFilter" aria-label="城市筛选">
-              <option value="all">全部城市</option>
+            <select id="monthFilter" aria-label="月份筛选">
+              <option value="all">全部月份</option>
             </select>
           </div>
-          <div class="live-grid" id="liveGrid"></div>
-        </section>
 
-        <section class="view" id="discoverView">
-          <div class="toolbar">
-            <label class="search-box">
-              <span>⌕</span>
-              <input id="discoverSearchInput" type="search" placeholder="搜索官方 Live、乐队、城市、场馆" />
-            </label>
-            <select id="sourceFilter" aria-label="来源筛选">
-              <option value="all">全部来源</option>
-              <option value="BanG Dream!">BanG Dream!</option>
-            </select>
-          </div>
           <div class="source-note">
-            <strong>官方发现池</strong>
-            <span>这里展示已公开且尚未演出的 Live。加入意向后，才会进入你的 Live cart。</span>
+            <strong>信息原则</strong>
+            <span>标题、艺人、场馆等容易误解的关键字段保留原文；摘要、票价说明、规划提示使用中文。</span>
           </div>
-          <div class="live-grid" id="discoverGrid"></div>
+
+          <div class="live-list" id="marketList"></div>
+        </section>
+
+        <section class="view" id="cartView">
+          <div class="stats-grid" id="cartStats"></div>
+          <div class="live-list" id="cartList"></div>
+        </section>
+
+        <section class="view" id="plannerView">
+          <div class="planner-board" id="plannerBoard"></div>
         </section>
 
         <section class="view" id="remindersView">
           <div class="reminder-list" id="reminderList"></div>
         </section>
-
-        <section class="view" id="friendsView">
-          <div class="friends-layout">
-            <section class="panel compact">
-              <div class="panel-header">
-                <h3>成员</h3>
-              </div>
-              <form class="inline-form" id="friendForm">
-                <input id="friendNameInput" type="text" placeholder="朋友昵称" maxlength="12" required />
-                <button class="primary-button" type="submit">添加</button>
-              </form>
-              <div class="friend-list" id="friendList"></div>
-            </section>
-            <section class="panel">
-              <div class="panel-header">
-                <h3>参与热度</h3>
-              </div>
-              <div class="rank-list" id="interestList"></div>
-            </section>
-          </div>
-        </section>
       </main>
     </div>
 
-    <dialog class="modal" id="liveDialog">
-      <form class="modal-card" id="liveForm" method="dialog">
-        <div class="modal-header">
-          <div>
-            <p class="eyebrow">Live entry</p>
-            <h3 id="dialogTitle">新增 Live</h3>
-          </div>
-          <button class="icon-button" id="closeDialogButton" type="button" title="关闭" aria-label="关闭">×</button>
-        </div>
-
-        <input id="liveIdInput" type="hidden" />
-        <div class="form-grid">
-          <label>
-            艺人 / 乐队
-            <input id="artistInput" type="text" required />
-          </label>
-          <label>
-            巡演 / 场次
-            <input id="titleInput" type="text" required />
-          </label>
-          <label>
-            日期
-            <input id="dateInput" type="date" required />
-          </label>
-          <label>
-            城市
-            <input id="cityInput" type="text" required />
-          </label>
-          <label>
-            场馆
-            <input id="venueInput" type="text" required />
-          </label>
-          <label>
-            状态
-            <select id="statusInput">
-              <option>关注中</option>
-              <option>已抽选</option>
-              <option>中选</option>
-              <option>落选</option>
-              <option>已买票</option>
-              <option>放弃</option>
-            </select>
-          </label>
-          <label>
-            优先级
-            <input id="priorityInput" type="range" min="1" max="5" value="3" />
-          </label>
-          <label>
-            预算预估
-            <input id="budgetInput" type="number" min="0" step="1000" placeholder="JPY" />
-          </label>
-          <label>
-            抽选 / 开票截止
-            <input id="deadlineInput" type="date" />
-          </label>
-          <label>
-            官方链接
-            <input id="linkInput" type="url" placeholder="https://" />
-          </label>
-        </div>
-
-        <label>
-          备注
-          <textarea id="notesInput" rows="4" placeholder="同行、交通、住宿、抽选名义、想看的原因"></textarea>
-        </label>
-
-        <div class="modal-actions">
-          <button class="danger-button" id="deleteLiveButton" type="button">删除</button>
-          <div class="spacer"></div>
-          <button class="secondary-button" id="cancelDialogButton" type="button">取消</button>
-          <button class="primary-button" type="submit">保存</button>
-        </div>
-      </form>
+    <dialog class="detail-modal" id="detailDialog">
+      <article class="detail-card">
+        <button class="icon-button close-button" id="closeDetailButton" type="button" title="关闭" aria-label="关闭">×</button>
+        <div id="detailContent"></div>
+      </article>
     </dialog>
 
     <script src="app.js"></script>
