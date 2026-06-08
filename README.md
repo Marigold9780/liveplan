@@ -23,6 +23,8 @@ liveplan-app/
 ├─ scripts/
 │  ├─ serve.ps1               # 本地静态服务器启动脚本
 │  └─ sync-bangdream.mjs      # 官方来源检查 / 同步脚手架
+├─ desktop/
+│  └─ main.cjs                # Electron 桌面版入口
 └─ docs/
    └─ architecture.md         # 架构说明
 ```
@@ -61,6 +63,40 @@ https://marigold9780.github.io/liveplan/
 - 决策状态：观望中、想冲、已抽选、已中选、已买票、暂不考虑
 - 提醒：展示受付截止和 Live 当日
 - 数据导出：导出个人 cart 数据为 JSON
+
+## 桌面版 exe
+
+项目已经加入 Electron 桌面版结构，可以打包成 Windows 安装包或便携版 `.exe`。
+
+首次安装依赖：
+
+```powershell
+npm install
+```
+
+开发运行桌面版：
+
+```powershell
+npm start
+```
+
+生成 Windows 安装包和便携版：
+
+```powershell
+npm run build:win
+```
+
+产物会输出到：
+
+```text
+dist/
+```
+
+更详细说明见：
+
+```text
+docs/desktop-build.md
+```
 
 ## 数据来源说明
 

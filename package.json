@@ -1,0 +1,51 @@
+{
+  "name": "liveplan",
+  "version": "0.1.0",
+  "description": "个人向日音 Live Market / 关注规划助手",
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win",
+    "build:portable": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^31.7.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.marigold9780.liveplan",
+    "productName": "LivePlan",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "desktop/**/*",
+      "frontend/**/*",
+      "data/**/*",
+      "index.html",
+      "README.md"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}

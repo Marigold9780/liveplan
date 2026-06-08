@@ -14,6 +14,9 @@ liveplan-app/
 ├─ scripts/
 │  ├─ serve.ps1               # Local static server
 │  └─ sync-bangdream.mjs      # Official-source fetch/check scaffold
+├─ desktop/
+│  └─ main.cjs                # Electron desktop entry
+├─ package.json               # Desktop build scripts
 └─ docs/
    └─ architecture.md
 ```
@@ -37,6 +40,7 @@ flowchart LR
 - `frontend/` owns the user experience only.
 - `data/live-market.json` owns verified Live facts.
 - `scripts/` will own fetching, checking, and eventually updating official data.
+- `desktop/` owns the Windows desktop wrapper.
 - Personal user data stays in browser `localStorage` for now.
 
 ## Next Data Step
